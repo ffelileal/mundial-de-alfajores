@@ -52,7 +52,7 @@ export function MobileNav() {
 
           return (
             <Link
-              key={item.href}
+              key={item.label}
               href={item.href}
               className={clsx(
                 "flex flex-col items-center justify-center py-1 px-1 rounded-2xl transition-all select-none touch-manipulation active:scale-90",
