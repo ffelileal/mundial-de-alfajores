@@ -1,0 +1,95 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Competition {
+  id               String        @id @default(cuid())
+  name             String        @default("Mundial de Alfajores")
+  description      String?
+  status           String        @default("PREPARATION") // PREPARATION, IN_PROGRESS, FINISHED
+  blindTasting     Boolean       @default(false)
+  resultsVisible   Boolean       @default(false)
+  tasteWeight      Float         @default(0.8)
+  packagingWeight  Float         @default(0.2)
+  adminPassword    String        @default("admin123")
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  participants     Participant[]
+  products         Product[]
+  evaluations      Evaluation[]
+  specialVotes     SpecialVote[]
+}
+
+model Participant {
+  id             String        @id @default(cuid())
+  competitionId  String
+  alias          String
+  name           String
+  avatarEmoji    String        @default("👤")
+  status         String        @default("ACTIVE") // ACTIVE, BLOCKED
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  competition    Competition   @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  evaluations    Evaluation[]
+  specialVotes   SpecialVote[]
+
+  @@unique([competitionId, alias])
+}
+
+model Product {
+  id             String        @id @default(cuid())
+  competitionId  String
+  orderNumber    Int           @default(1)
+  name           String
+  brand          String
+  flavor         String
+  image          String?
+  description    String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  competition    Competition   @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  evaluations    Evaluation[]
+  specialVotes   SpecialVote[]
+}
+
+model Evaluation {
+  id              String       @id @default(cuid())
+  competitionId   String
+  participantId   String
+  productId       String
+  tasteScore      Float        // 1.0 a 10.0
+  packagingScore  Float        // 1.0 a 10.0
+  finalScore      Float        // (tasteScore * 0.8) + (packagingScore * 0.2)
+  comment         String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  competition     Competition  @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  participant     Participant  @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  product         Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, productId])
+}
+
+model SpecialVote {
+  id             String        @id @default(cuid())
+  competitionId  String
+  participantId  String
+  productId      String
+  category       String        // "MAS_ARGENTINO", "REY_CHOCOLATE", etc.
+  createdAt      DateTime      @default(now())
+
+  competition    Competition   @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  participant    Participant   @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  product        Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, category, competitionId])
+}

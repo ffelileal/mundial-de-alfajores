@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #fbf9f6;
+    --foreground: #22150c;
+    --card: #ffffff;
+    --card-foreground: #22150c;
+    --popover: #ffffff;
+    --popover-foreground: #22150c;
+    --primary: #54311c;
+    --primary-foreground: #ffffff;
+    --secondary: #efe6dc;
+    --secondary-foreground: #3d2112;
+    --muted: #f3ece4;
+    --muted-foreground: #786556;
+    --accent: #74acdf;
+    --accent-foreground: #082f49;
+    --border: #e6dacd;
+    --input: #e6dacd;
+    --ring: #74acdf;
+    --radius: 1rem;
+    --gold: #d97706;
+    --gold-light: #fef3c7;
+    --chocolate-dark: #231208;
+    --chocolate-medium: #4a2712;
+    --chocolate-light: #7c4a27;
+    --dulce-de-leche: #b8621b;
+  }
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-bottom: 2rem;
+  }
+}
+
+/* Touch optimization */
+button, a, input, select, textarea {
+  touch-action: manipulation;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1ede8;
+}
+::-webkit-scrollbar-thumb {
+  background: #cfc2b4;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a99684;
+}
+
+/* Glassmorphism utility */
+.glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(230, 218, 205, 0.85);
+}
+
+.chocolate-gradient {
+  background: linear-gradient(135deg, #2c1409 0%, #46220f 50%, #683418 100%);
+}
+
+.argentine-gradient {
+  background: linear-gradient(135deg, #74acdf 0%, #ffffff 50%, #74acdf 100%);
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%);
+}
+
+.hero-pattern {
+  background-color: #231208;
+  background-image: radial-gradient(rgba(116, 172, 223, 0.12) 1px, transparent 0);
+  background-size: 24px 24px;
+}
