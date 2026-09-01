@@ -1,4 +1,3 @@
-import "server-only";
 import { cookies } from "next/headers";
 
 const PLAYER_COOKIE_NAME = "mundial_player_session";
